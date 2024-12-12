@@ -22,7 +22,7 @@ public class UserController {
 		this.userService = userService;
 	}
 	
-	@PostMapping("/register")
+	@PostMapping("/save-user")
 	public ResponseEntity<ResponseStructure<User>> registerUser(@RequestBody User user){
 		
 		user = userService.registerUser(user);
@@ -32,14 +32,6 @@ public class UserController {
 		
 	}
 	
-	@PostMapping("/upload-profile")
-	public ResponseEntity<SimpleResponseStructure> uploadProfile(@RequestParam ("userId") int userId,
-				@RequestParam("file") MultipartFile file ){
-		
-		userService.uploadProfile(userId,file);
-
-		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(SimpleResponseStructure.create(HttpStatus.CREATED.value(), "Profile Picture Updated"));
-	}
+	
 
 }
