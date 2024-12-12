@@ -9,22 +9,25 @@ import com.example.entity.Image;
 import com.example.entity.User;
 import com.example.exception.FailedToUploadException;
 import com.example.exception.UserNotFoundException;
+import com.example.mapper.UserMapper;
 import com.example.repository.ImageRepository;
 import com.example.repository.UserRepository;
+import com.example.requestDto.UserRequest;
+import com.example.responseDto.UserResponse;
 
 
 @Service
 public class UserService {
 	private final UserRepository userRepository;
-	private final ImageRepository imageRepository;
+	private final UserMapper userMapper;
 
-	public UserService(UserRepository userRepository,ImageRepository imageRepository) {
+	public UserService(UserRepository userRepository, UserMapper userMapper) {
 		super();
 		this.userRepository = userRepository;
-		this.imageRepository = imageRepository;
+		this.userMapper = userMapper;
 	}
 
-	public User registerUser(User user) {
+	/*public User registerUser(User user) {
 		
 		return userRepository.save(user);
 	}
@@ -70,6 +73,12 @@ public class UserService {
 			throw new FailedToUploadException("Failed to upload image");
 		}
 		return image;
+	} */
+
+	public UserResponse savesUser(UserRequest userRequest) {
+	      User user=userMapper.mapToUser(userRequest);
+	      User savedUser=userRepository.save(user);
+	      return userMapper.mapToUserResponse(savedUser);
 	}
 	
 
