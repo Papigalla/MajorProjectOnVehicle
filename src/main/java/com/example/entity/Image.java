@@ -14,9 +14,6 @@ public class Image {
 	private String contentType;
 	@Lob
 	private byte[] imageBytes;
-	
-	
-	
 	public int getImageId() {
 		return imageId;
 	}

@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.entity.User;
+import com.example.requestDto.UserRequest;
+import com.example.responseDto.UserResponse;
 import com.example.service.UserService;
 import com.example.util.ResponseStructure;
 import com.example.util.SimpleResponseStructure;
@@ -22,13 +24,22 @@ public class UserController {
 		this.userService = userService;
 	}
 	
-	@PostMapping("/save-user")
+	/*@PostMapping("/save-user")
 	public ResponseEntity<ResponseStructure<User>> registerUser(@RequestBody User user){
 		
 		user = userService.registerUser(user);
 
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(ResponseStructure.create(HttpStatus.CREATED.value(), "User Created", user));
+		
+	} */
+	@PostMapping("/save-user")
+public ResponseEntity<ResponseStructure<UserResponse>> saveUser(@RequestBody UserRequest userRequest){
+		
+	UserResponse userResponse = userService.savesUser(userRequest);
+
+		return ResponseEntity.status(HttpStatus.CREATED)
+				.body(ResponseStructure.create(HttpStatus.CREATED.value(), "User Created", userResponse));
 		
 	}
 	
