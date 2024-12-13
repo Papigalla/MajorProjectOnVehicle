@@ -4,12 +4,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.entity.User;
+import com.example.enums.UserRole;
+import com.example.mapper.UserMapper;
 import com.example.requestDto.UserRequest;
 import com.example.responseDto.UserResponse;
 import com.example.service.UserService;
@@ -27,12 +30,12 @@ public class UserController {
 	
 	
 	@PostMapping("/save-user")
-public ResponseEntity<ResponseStructure<UserResponse>> saveUser(@RequestBody UserRequest userRequest){
+public ResponseEntity<ResponseStructure<User>> saveUser(@RequestBody User user){
 		
-	UserResponse userResponse = userService.savesUser(userRequest);
+	user= userService.savesUser(user);
 
 		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(ResponseStructure.create(HttpStatus.CREATED.value(), "User Created", userResponse));
+				.body(ResponseStructure.create(HttpStatus.CREATED.value(), "User Created", user));
 		
 	}
 	@GetMapping("fetch-user")
@@ -42,6 +45,20 @@ public ResponseEntity<ResponseStructure<UserResponse>> saveUser(@RequestBody Use
 	return ResponseEntity.status(HttpStatus.OK)
 			.body(ResponseStructure.create(HttpStatus.OK.value(),"Image is Found", userResponse));
 		
+	}
+	@PostMapping("/customer-register")
+	public ResponseEntity<ResponseStructure<UserResponse>> registerCustomer(@RequestBody UserRequest userRequest)
+	{
+     UserResponse userResponse=userService.register(userRequest,UserRole.CUSTOMER);
+	return ResponseEntity.status(HttpStatus.OK)
+			.body(ResponseStructure.create(HttpStatus.OK.value(),"successfully updated with customer", userResponse));
+	}
+	@PostMapping("/RentingPartner-register")
+	public ResponseEntity<ResponseStructure<UserResponse>> registerRentingPartner(@RequestBody UserRequest userRequest)
+	{
+	UserResponse userResponse=userService.registers(userRequest,UserRole.RENTING_PARTNER);
+	return ResponseEntity.status(HttpStatus.OK)
+			.body(ResponseStructure.create(HttpStatus.OK.value(),"Successfully updated with RentingPartner", userResponse));
 	}
 	
 	

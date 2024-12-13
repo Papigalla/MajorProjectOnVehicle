@@ -3,7 +3,7 @@ package com.example.mapper;
 import org.springframework.stereotype.Component;
 
 import com.example.entity.User;
-
+import com.example.enums.UserRole;
 import com.example.requestDto.UserRequest;
 import com.example.responseDto.UserResponse;
 @Component
@@ -15,14 +15,25 @@ public class UserMapper {
 		this.userRequest = userRequest;
 		this.userResponse = userResponse;
 	}*/
-	public User mapToUser(UserRequest request)
+	public User mapToCustomer(UserRequest request, UserRole role)
 	{
 		User user=new User();
 		user.setUsername(request.getUsername());
 		user.setEmail(request.getEmail());
 		user.setPassword(request.getPassword());
 		user.setPhoneNumber(request.getPhoneNumber());
-		user.setRole(request.getRole());
+		user.setRole(role);
+		return user;
+	}
+	
+	public User mapToRentingPartner(UserRequest request, UserRole role)
+	{
+		User user=new User();
+		user.setUsername(request.getUsername());
+		user.setEmail(request.getEmail());
+		user.setPassword(request.getPassword());
+		user.setPhoneNumber(request.getPhoneNumber());
+		user.setRole(role);
 		return user;
 	}
 	public UserResponse mapToUserResponse(User user)
