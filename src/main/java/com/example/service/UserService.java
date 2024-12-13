@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.entity.Image;
 import com.example.entity.User;
+import com.example.enums.UserRole;
 import com.example.exception.FailedToUploadException;
 import com.example.exception.ImageIsNotFoundById;
 import com.example.exception.UserNotFoundException;
@@ -29,10 +30,8 @@ public class UserService {
 	}
 
 
-	public UserResponse savesUser(UserRequest userRequest) {
-	      User user=userMapper.mapToUser(userRequest);
-	      User savedUser=userRepository.save(user);
-	      return userMapper.mapToUserResponse(savedUser);
+	public User savesUser(User user) {
+	      return userRepository.save(user);
 	}
 
 	public UserResponse findUser(int userId) {
@@ -47,18 +46,38 @@ public class UserService {
 		else
 		{
 			throw new UserNotFoundException("user not found");
-		}
-		
-		
-		
+		}	
 	}
 
 	private void setProfilePictureURL(UserResponse response, int userId) {
     int imageId=userRepository.getProfilePictureIdByUserId(userId);
     if(imageId >0)
-    	response.setProfilePicture("/fetch-image?imageId=" + imageId);
+    	response.setProfilePicture("/fetch-image?imageId=" + imageId);	
+	}
+
+	public UserResponse register(UserRequest userRequest, UserRole customer) {
+		userRequest.setRole(UserRole.CUSTOMER);
+		 User user=userMapper.mapToCustomer(userRequest,customer);
+	      User savedUser=userRepository.save(user);
+	      return userMapper.mapToUserResponse(savedUser);
 		
 	}
+
+
+	public  UserResponse registers(UserRequest userRequest, UserRole rentingPartner) {
+		userRequest.setRole(UserRole.RENTING_PARTNER);
+		User user=userMapper.mapToRentingPartner(userRequest,rentingPartner);
+	      User savedUser=userRepository.save(user);
+	      return userMapper.mapToUserResponse(savedUser);
+	}
+
+
+	
+
+
+	
+
+	
 	
 
 
