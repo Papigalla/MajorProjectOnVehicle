@@ -1,5 +1,6 @@
 package com.example.responseDto;
 
+import com.example.entity.Image;
 import com.example.enums.UserRole;
 
 public class UserResponse {
@@ -7,6 +8,15 @@ public class UserResponse {
 	private String username;
 	private String email;
 	private UserRole role;
+	private String profilePicture;
+	
+	
+	public String getProfilePicture() {
+		return profilePicture;
+	}
+	public void setProfilePicture(String profilePicture) {
+		this.profilePicture = profilePicture;
+	}
 	public int getUserId() {
 		return userId;
 	}
