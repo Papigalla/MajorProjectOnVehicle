@@ -46,6 +46,15 @@ public class UserMapper {
         return response;
 		
 	}
+	public User mapToUser(UserRequest request, User user) {
+
+		user.setUsername(request.getUsername());
+		user.setEmail(request.getEmail());
+		user.setPhoneNumber(request.getPhoneNumber());
+		user.setPassword(request.getPassword());
+
+		return user;
+	}
 	
 
 }
