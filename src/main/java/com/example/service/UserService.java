@@ -35,7 +35,7 @@ public class UserService {
 		if(optional.isPresent())
 		{
 		User user=optional.get();
-		 UserResponse response= userMapper.mapToUserResponse(user);
+		UserResponse response= userMapper.mapToUserResponse(user);
 		 this.setProfilePictureURL(response, user.getUserId());
 		 return response;
 		}
