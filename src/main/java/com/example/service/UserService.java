@@ -30,10 +30,6 @@ public class UserService {
 	}
 
 
-	public User savesUser(User user) {
-	      return userRepository.save(user);
-	}
-
 	public UserResponse findUser(int userId) {
 		Optional<User> optional=userRepository.findById(userId);
 		if(optional.isPresent())
@@ -49,7 +45,7 @@ public class UserService {
 		}	
 	}
 
-	private void setProfilePictureURL(UserResponse response, int userId) {
+	public void setProfilePictureURL(UserResponse response, int userId) {
     int imageId=userRepository.getProfilePictureIdByUserId(userId);
     if(imageId >0)
     	response.setProfilePicture("/fetch-image?imageId=" + imageId);	
@@ -70,6 +66,25 @@ public class UserService {
 	      User savedUser=userRepository.save(user);
 	      return userMapper.mapToUserResponse(savedUser);
 	}
+public UserResponse updateUser(UserRequest request,int userId) {
+		
+		Optional<User> optional = userRepository.findById(userId);
+
+		if (optional.isPresent()) {
+			User user = userMapper.mapToUser(request, optional.get());
+			
+			userRepository.save(user);
+			
+			UserResponse response = userMapper.mapToUserResponse(user);
+			this.setProfilePictureURL(response, userId); 
+			
+			return response;
+			
+		} else {
+			throw new UserNotFoundException("Failed To Find The User");
+		}
+	}
+
 
 
 	

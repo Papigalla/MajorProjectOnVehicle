@@ -28,16 +28,6 @@ public class UserController {
 		this.userService = userService;
 	}
 	
-	
-	@PostMapping("/save-user")
-public ResponseEntity<ResponseStructure<User>> saveUser(@RequestBody User user){
-		
-	user= userService.savesUser(user);
-
-		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(ResponseStructure.create(HttpStatus.CREATED.value(), "User Created", user));
-		
-	}
 	@GetMapping("fetch-user")
 	public ResponseEntity<ResponseStructure<UserResponse>> fetchUser(@RequestParam("user_id") int userId)
 	{
@@ -59,6 +49,15 @@ public ResponseEntity<ResponseStructure<User>> saveUser(@RequestBody User user){
 	UserResponse userResponse=userService.registers(userRequest,UserRole.RENTING_PARTNER);
 	return ResponseEntity.status(HttpStatus.OK)
 			.body(ResponseStructure.create(HttpStatus.OK.value(),"Successfully updated with RentingPartner", userResponse));
+	}
+	@PutMapping("/update-user")
+	public ResponseEntity<ResponseStructure<UserResponse>> updateUser(@RequestBody UserRequest request,@RequestParam int userId) {
+		
+		UserResponse response = userService.updateUser(request,userId);
+		
+		return ResponseEntity
+				.status(HttpStatus.OK)
+				.body(ResponseStructure.create(HttpStatus.OK.value(), "User Updated", response));
 	}
 	
 	
