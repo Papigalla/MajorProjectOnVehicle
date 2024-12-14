@@ -32,19 +32,34 @@ public class ImageService {
 	Optional<User> optional=userRepository.findById(userId);
 	if(optional.isPresent())
 	{
-	Image img=imageRepository.save(this.getImage(file));
 	User user=optional.get();
-	user.setProfilePicture(img);
-	userRepository.save(user);
+	if(user.getProfilePicture()!=null)
+	{
+	Image image=user.getProfilePicture();
+	this.uploadUserProfile(file, user);
+	imageRepository.delete(image);
+	}
+	this.uploadUserProfile(file,user);
 	}
 	else
 	{
 		throw new FailedToUploadException("failed to upload ");
 	}
+	
 		
 	}
 
-	public Image getImage(MultipartFile file) {
+	private void uploadUserProfile(MultipartFile file, User user) {
+		Image image=imageRepository.save(this.getImage(file));
+		user.setProfilePicture(image);
+		userRepository.save(user);
+		
+	}
+
+
+
+
+	private Image getImage(MultipartFile file) {
 		try {
 			Image img=new Image();
 			img.setContentType(file.getContentType());
