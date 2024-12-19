@@ -1,5 +1,7 @@
 package com.example.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +43,16 @@ public class ImageController {
 				.contentType(MediaType.valueOf(image.getContentType()))
 				.body(imageByte);
 	}
+	@PostMapping("/upload-images")
+    public ResponseEntity<SimpleResponseStructure> uploadImages(
+            @RequestParam("vehicleId") int vehicleId, 
+            @RequestParam("files") List<MultipartFile> files) {
+
+        imageService.uploadVehicleImages(vehicleId, files);
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(SimpleResponseStructure.create(HttpStatus.CREATED.value(), "Vehicle Images Uploaded Successfully"));
+    }
 
 
 }

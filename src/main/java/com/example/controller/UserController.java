@@ -46,7 +46,7 @@ public class UserController {
 	@PostMapping("/RentingPartner-register")
 	public ResponseEntity<ResponseStructure<UserResponse>> registerRentingPartner(@RequestBody UserRequest userRequest)
 	{
-	UserResponse userResponse=userService.registers(userRequest,UserRole.RENTING_PARTNER);
+	UserResponse userResponse=userService.register(userRequest,UserRole.RENTING_PARTNER);
 	return ResponseEntity.status(HttpStatus.OK)
 			.body(ResponseStructure.create(HttpStatus.OK.value(),"Successfully updated with RentingPartner", userResponse));
 	}
@@ -58,6 +58,15 @@ public class UserController {
 		return ResponseEntity
 				.status(HttpStatus.OK)
 				.body(ResponseStructure.create(HttpStatus.OK.value(), "User Updated", response));
+	}
+	@PostMapping("/admin/register")
+	public ResponseEntity<ResponseStructure<UserResponse>> registerAdmin(@RequestBody UserRequest request) {
+
+		UserResponse response = userService.register(request, UserRole.ADMIN);
+
+		return ResponseEntity.status(HttpStatus.CREATED)
+				.body(ResponseStructure.create(HttpStatus.CREATED.value(), "Admin created", response));
+
 	}
 	
 	

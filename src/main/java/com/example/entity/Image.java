@@ -10,6 +10,7 @@ import jakarta.persistence.Lob;
 public class Image {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	
 	private int imageId;
 	private String contentType;
 	@Lob
