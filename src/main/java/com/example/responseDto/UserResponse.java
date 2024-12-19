@@ -7,6 +7,7 @@ public class UserResponse {
 	private int userId;
 	private String username;
 	private String email;
+	private String phoneNumber;
 	private UserRole role;
 	private String profilePicture;
 	
@@ -41,6 +42,13 @@ public class UserResponse {
 	public void setRole(UserRole role) {
 		this.role = role;
 	}
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+	
 	
 	
  

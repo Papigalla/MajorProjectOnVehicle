@@ -2,6 +2,7 @@ package com.example.service;
 
 import java.util.Optional;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,19 +17,27 @@ import com.example.repository.ImageRepository;
 import com.example.repository.UserRepository;
 import com.example.requestDto.UserRequest;
 import com.example.responseDto.UserResponse;
+import com.example.security.AuthUtil;
+
 
 
 @Service
 public class UserService {
 	private final UserRepository userRepository;
 	private final UserMapper userMapper;
+	private final PasswordEncoder passwordEncoder;
+	private final AuthUtil authUtil;
+	
+	
 
-	public UserService(UserRepository userRepository, UserMapper userMapper) {
+	public UserService(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder,
+			AuthUtil authUtil) {
 		super();
 		this.userRepository = userRepository;
 		this.userMapper = userMapper;
+		this.passwordEncoder = passwordEncoder;
+		this.authUtil = authUtil;
 	}
-
 
 	public UserResponse findUser(int userId) {
 		Optional<User> optional=userRepository.findById(userId);
@@ -50,22 +59,17 @@ public class UserService {
     if(imageId >0)
     	response.setProfilePicture("/fetch-image?imageId=" + imageId);	
 	}
+	public UserResponse register(UserRequest request,UserRole role) {
 
-	public UserResponse register(UserRequest userRequest, UserRole customer) {
-		userRequest.setRole(UserRole.CUSTOMER);
-		 User user=userMapper.mapToCustomer(userRequest,customer);
-	      User savedUser=userRepository.save(user);
-	      return userMapper.mapToUserResponse(savedUser);
-		
+		User user = userMapper.mapToUser(request, new User());
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		user.setRole(role);
+		User savedUser = userRepository.save(user);
+
+		return userMapper.mapToUserResponse(savedUser);
 	}
 
-
-	public  UserResponse registers(UserRequest userRequest, UserRole rentingPartner) {
-		userRequest.setRole(UserRole.RENTING_PARTNER);
-		User user=userMapper.mapToRentingPartner(userRequest,rentingPartner);
-	      User savedUser=userRepository.save(user);
-	      return userMapper.mapToUserResponse(savedUser);
-	}
+	
 public UserResponse updateUser(UserRequest request,int userId) {
 		
 		Optional<User> optional = userRepository.findById(userId);

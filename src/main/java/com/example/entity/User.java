@@ -3,6 +3,8 @@ package com.example.entity;
 import com.example.enums.UserRole;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,6 +19,7 @@ public class User {
 	private String email;
 	private long phoneNumber;
 	private String password;
+	@Enumerated(EnumType.STRING)//stores the enum in the form as a string in the database
 	private UserRole role;
 	
 	@OneToOne(fetch=FetchType.LAZY)

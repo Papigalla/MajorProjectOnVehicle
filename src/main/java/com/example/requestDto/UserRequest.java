@@ -7,7 +7,7 @@ public class UserRequest {
 	private String email;
 	private String password;
 	private long phoneNumber;
-	private UserRole role;
+	
 	public String getUsername() {
 		return username;
 	}
@@ -32,12 +32,7 @@ public class UserRequest {
 	public void setPhoneNumber(long phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
-	public UserRole getRole() {
-		return role;
-	}
-	public void setRole(UserRole role) {
-		this.role = role;
-	}
+	
 	
 
 }

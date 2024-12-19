@@ -2,6 +2,7 @@ package com.example.enums;
 
 public enum UserRole {
 	CUSTOMER,
-	RENTING_PARTNER
+	RENTING_PARTNER,
+	ADMIN;
 
 }
